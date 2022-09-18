@@ -1,0 +1,10 @@
+version: '3'
+services:
+  auth: 
+    build: ./Auth
+    ports:
+      - "8080:8080"
+  fetch: 
+    build: ./Fetch
+    ports:
+      - "8081:8081"
