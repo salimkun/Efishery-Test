@@ -17,3 +17,20 @@ func JwtAuthMiddleware() gin.HandlerFunc {
 		c.Next()
 	}
 }
+
+func JwtAdminMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		userClaims, err := util.ExtractTokenID(c)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "UnAuthorized"})
+			return
+		}
+
+		if userClaims.Role != 1 {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "UnAuthorized"})
+			return
+		}
+
+		c.Next()
+	}
+}

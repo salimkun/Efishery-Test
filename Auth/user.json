@@ -33,5 +33,33 @@
   "role_id": 1,
   "password": "EaCQ",
   "registered_At": "2022-09-18 18:45:29.3671884 +0700 +07 m=+36.301098001"
+ },
+ {
+  "name": "testing satu",
+  "phone": "0863432",
+  "role_id": 1,
+  "password": "RR6T",
+  "registered_At": "2022-09-19 03:08:15.3925146 +0700 +07 m=+95.165125101"
+ },
+ {
+  "name": "testing satu",
+  "phone": "23493",
+  "role_id": 1,
+  "password": "ftkE",
+  "registered_At": "2022-09-19 03:19:16.2577543 +0700 +07 m=+756.030364801"
+ },
+ {
+  "name": "testing satu",
+  "phone": "123456",
+  "role_id": 1,
+  "password": "a1Qa",
+  "registered_At": "2022-09-19 03:20:44.1123323 +0700 +07 m=+843.884942801"
+ },
+ {
+  "name": "satu",
+  "phone": "33280",
+  "role_id": 2,
+  "password": "rP8N",
+  "registered_At": "2022-09-19 14:24:30.9688173 +0700 +07 m=+45.881328601"
  }
 ]
