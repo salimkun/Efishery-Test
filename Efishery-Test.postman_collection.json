@@ -1,0 +1,103 @@
+{
+	"info": {
+		"_postman_id": "3d473f8a-f186-4281-874c-c16994d55fd4",
+		"name": "Efishery-Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "register user",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"alim Sama\",\r\n    \"phone\": \"02192929\",\r\n    \"role_id\": 1  //1(admin), 2(user)\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/v1/auth/register"
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phone\": \"085226897678\",\r\n    \"password\": \"5E7l\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/v1/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "get info by token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2NjMzOTQzNTMsIm5hbWUiOiJhbGltIFVsYW1hIiwicGhvbmUiOiIwODUyMjY4OTc2NzgiLCJyZWdpc3RlcmVkX2F0IjoiMjAyMi0wOS0xNyAxMDoxODoyNy4yMzU5MzUgKzA3MDAgKzA3IG09KzUuNjk4Njc3NDAxIiwicm9sZV9pZCI6MX0.7CVTJ1m58ZjLSj5T2FYuUwg8VgF5K9P7vQ2_TVDb6bI"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8080/api/v1/user/me"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Fetch",
+			"item": [
+				{
+					"name": "get agregat",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2NjM0NzY2ODksIm5hbWUiOiJhbGltIFVsYW1hIiwicGhvbmUiOiIwODUyMjY4OTc2NzgiLCJyZWdpc3RlcmVkX2F0IjoiMjAyMi0wOS0xNyAxMDoxODoyNy4yMzU5MzUgKzA3MDAgKzA3IG09KzUuNjk4Njc3NDAxIiwicm9sZV9pZCI6MX0.g8g0ROG2sq85NCR1YddWnYsolSKsnDMo6_4hTj_d1zg"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8081/api/v1/resource/agregate"
+					},
+					"response": []
+				},
+				{
+					"name": "get resource",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2NjM0NDQ2MTQsIm5hbWUiOiJhbGltIFVsYW1hIiwicGhvbmUiOiIwODUyMjY4OTc2NzgiLCJyZWdpc3RlcmVkX2F0IjoiMjAyMi0wOS0xNyAxMDoxODoyNy4yMzU5MzUgKzA3MDAgKzA3IG09KzUuNjk4Njc3NDAxIiwicm9sZV9pZCI6MX0.54dpmfe67pG7sL08r9gDcgzMor_Uug_5KfyuXChcGH0s"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8081/api/v1/resource"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

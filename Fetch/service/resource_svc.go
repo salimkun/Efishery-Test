@@ -11,7 +11,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis"
-	AuthUtil "github.com/salimkun/Efishery-Test/Auth/common/util"
 	"github.com/salimkun/Efishery-Test/Fetch/common/util"
 	"github.com/salimkun/Efishery-Test/Fetch/model"
 )
@@ -35,7 +34,7 @@ func GetResource(c *gin.Context) {
 
 	// check redis
 	var currency float64
-	client := AuthUtil.SetUpRedis()
+	client := util.SetUpRedis()
 	countryVal, err := client.Get("currency").Result()
 	if err == redis.Nil {
 		currency, err = getCurrencyNow()
