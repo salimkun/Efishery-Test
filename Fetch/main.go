@@ -11,7 +11,7 @@ func main() {
 
 	version1 := router.Group("/api/v1")
 
-	version1.Use(common.JwtAuthMiddleware())
+	version1.Use(common.JwtAdminMiddleware())
 	version1.GET("/resource", service.GetResource)
 	version1.GET("/resource/agregate", service.AgregateResource)
 	router.Run("localhost:8081")
