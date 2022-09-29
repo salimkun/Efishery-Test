@@ -10,7 +10,6 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/go-redis/redis"
 	"github.com/salimkun/Efishery-Test/Fetch/common/util"
 	"github.com/salimkun/Efishery-Test/Fetch/model"
 )
@@ -36,7 +35,7 @@ func GetResource(c *gin.Context) {
 	var currency float64
 	client := util.SetUpRedis()
 	countryVal, err := client.Get("currency").Result()
-	if err == redis.Nil {
+	if err != nil {
 		currency, err = getCurrencyNow()
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err})
@@ -80,18 +79,14 @@ func AgregateResource(c *gin.Context) {
 
 	var result []*model.AgregateResource
 	// var obj *model.AgregateObj
-	keys := make(map[string]int)
+	keys := make(map[model.GroupingResource]int)
 	for _, i := range responseObject {
 		price, _ := strconv.Atoi(i.Price)
 		size, _ := strconv.Atoi(i.Size)
 
-		tm := time.Now()
-		if i.Timestamp != "" {
-			k, err := strconv.ParseInt(i.Timestamp, 10, 64)
-			if err != nil {
-				panic(err)
-			}
-			tm = time.Unix(k, 0)
+		timeParse, err := time.Parse("2006-01-02T15:04:05.999Z", i.DateParse)
+		if err != nil {
+			timeParse = time.Now()
 		}
 
 		resource := &model.AgregateResource{
@@ -110,10 +105,53 @@ func AgregateResource(c *gin.Context) {
 				Avg:       util.GetAvg([]float64{float64(size)}),
 				ArrayData: []float64{float64(size)},
 			},
-			DateResource: tm.String(),
+			DateResource: []string{i.DateParse},
 		}
 
-		if j, ok := keys[i.AreaProv]; ok {
+		// get first date of month
+		firstOfMonth := timeParse.AddDate(0, 0, -timeParse.Day()+1)
+
+		// mapping count day by weekday
+		weekLy := firstOfMonth.Weekday().String()
+		countDay := 0
+		switch weekLy {
+		case "Sunday":
+			countDay = 7
+		case "Monday":
+			countDay = 6
+		case "Tuesday":
+			countDay = 5
+		case "Wednesday":
+			countDay = 4
+		case "Thursday":
+			countDay = 3
+		case "Friday":
+			countDay = 2
+		case "Saturday":
+			countDay = 1
+		}
+
+		day := timeParse.Day()
+		if day <= countDay {
+			day = 1
+		} else if day <= countDay+7 && day > countDay {
+			day = 2
+		} else if day <= countDay+14 && day > countDay+7 {
+			day = 3
+		} else if day <= countDay+21 && day > countDay+14 {
+			day = 4
+		} else {
+			day = 5
+		}
+
+		fmt.Println(" ", day, " ", timeParse)
+
+		if j, ok := keys[model.GroupingResource{
+			Provincy: i.AreaProv,
+			Mount:    timeParse.Month().String(),
+			Year:     int32(timeParse.Year()),
+			Week:     int32(day),
+		}]; ok {
 			// set max price
 			if int64(price) > result[j].Price.Maximum {
 				result[j].Price.Maximum = int64(price)
@@ -128,6 +166,7 @@ func AgregateResource(c *gin.Context) {
 			result[j].Price.ArrayData = append(result[j].Price.ArrayData, float64(price))
 			result[j].Price.Median = util.GetMedian(result[j].Price.ArrayData)
 			result[j].Price.Avg = util.GetAvg(result[j].Price.ArrayData)
+			result[j].DateResource = append(result[j].DateResource, i.DateParse)
 
 			// set max size
 			if int64(size) > result[j].Size.Maximum {
@@ -148,7 +187,12 @@ func AgregateResource(c *gin.Context) {
 		} else {
 			// Unique key found. Record position and collect
 			// in result.
-			keys[i.AreaProv] = len(result)
+			keys[model.GroupingResource{
+				Provincy: i.AreaProv,
+				Mount:    timeParse.Month().String(),
+				Year:     int32(timeParse.Year()),
+				Week:     int32(day),
+			}] = len(result)
 			result = append(result, resource)
 		}
 	}

@@ -12,5 +12,3 @@ require (
 	golang.org/x/sys v0.0.0-20220722155257-8c9f86f7a55f // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
-
-replace github.com/salimkun/Efishery-Test/Auth v0.0.0-20220918122306-ee60ec1763c6 => ../Auth

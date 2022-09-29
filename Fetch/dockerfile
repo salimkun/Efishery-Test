@@ -12,4 +12,4 @@ RUN go build -o fetch
 
 ENTRYPOINT ["/app/fetch"]
 
-EXPOSE 8089
+EXPOSE 8081

@@ -28,7 +28,7 @@ type AgregateResource struct {
 	Price        AgregateObj `json:"price"`
 	Size         AgregateObj `json:"size"`
 	AreaProv     string      `json:"area_provinsi"`
-	DateResource string      `json:"date"`
+	DateResource []string    `json:"dates"`
 }
 
 type AgregateResp struct {
@@ -37,4 +37,11 @@ type AgregateResp struct {
 
 type ConvertCurrency struct {
 	Result float64 `json:"result"`
+}
+
+type GroupingResource struct {
+	Year     int32
+	Mount    string
+	Week     int32
+	Provincy string
 }
